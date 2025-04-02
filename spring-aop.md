@@ -43,8 +43,7 @@ When a pointcut condition is true, the advice is executed. A specific execution 
 		```
 ## Define Aspect
 Create aspect class and tell spring that this is a configuration class and defines an aspect.
-        ```java
-           
+        ```           
             @Configuration
             @Aspect
             public class TimerAspect {
@@ -66,7 +65,7 @@ Create aspect class and tell spring that this is a configuration class and defin
 
 # Common Pointcut Definitions
 Centralized pointcut configuration - DRY
-```java
+```
     // Centrailized pointcut configs
     package in.foresthut.permaculture.aspects;
     public class CommonPointcutConfig {
