@@ -43,9 +43,10 @@ When a pointcut condition is true, the advice is executed. A specific execution 
 		```
 ## Define Aspect
 Create aspect class and tell spring that this is a configuration class and defines an aspect.
-        ```java           
-            @Configuration
-            @Aspect
+        
+	``` 
+           @Configuration
+           @Aspect
             public class TimerAspect {
                 //Pointcut - when to call this method?
                 //execution(* PACKAGE.*.*(..))  
@@ -54,7 +55,8 @@ Create aspect class and tell spring that this is a configuration class and defin
                     //Logic - what to do?                    
                 }
             }
-        ```
+	    
+     	```
 
 # Important Annotations
 1. @Before - Do something before a method is called. Example; authenticate user and put the principal in the context
@@ -107,21 +109,21 @@ Useful to target specific methods
     
     // Common Pointcut config
     @Pointcut("@annotation(in.foresthut.annotations.TimeTrack)")
-	public void timeTrackConfig() {
-	}
-	
-	// Aspect
-	@Around("in.foresthut.aspects.CommonPointcutConfig.timeTrackConfig()")
-	public Object elapsedTime(ProceedingJoinPoint joinPoint) throws Throwable {
+    public void timeTrackConfig() {}
+
+    // Aspect
+    @Around("in.foresthut.aspects.CommonPointcutConfig.timeTrackConfig()")
+    public Object elapsedTime(ProceedingJoinPoint joinPoint) throws Throwable {
 	    // Do your magic here
-	}
+    }
 	
-	// Method timing to track
-	@Component
-	public class MyService {
+    // Method timing to track
+    @Component
+    public class MyService {
 	    @TimeTrack
 	    public void foo {
+		// Your code
 	    }
-	}
+    }
     
 ```
