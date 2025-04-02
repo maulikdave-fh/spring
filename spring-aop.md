@@ -97,5 +97,32 @@ Centralized pointcut configuration - DRY
     }
     
 ```
+# Custom Annotation
+Useful to target specific methods
 
-
+```java
+    // Annotation
+    @Target(ElementType.METHOD)
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface TimeTrack {}
+    
+    // Common Pointcut config
+    @Pointcut("@annotation(in.foresthut.annotations.TimeTrack)")
+	public void timeTrackConfig() {
+	}
+	
+	// Aspect
+	@Around("in.foresthut.aspects.CommonPointcutConfig.timeTrackConfig()")
+	public Object elapsedTime(ProceedingJoinPoint joinPoint) throws Throwable {
+	    // Do your magic here
+	}
+	
+	// Method timing to track
+	@Component
+	public class MyService {
+	    @TimeTrack
+	    public void foo {
+	    }
+	}
+    
+```
