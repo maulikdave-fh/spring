@@ -56,14 +56,34 @@ CORS, CSRF
 ## Zero Trust
 All requests are authenticated. It can be customized
 ## Form Authentication
-is enabled with default form and logout features
+is enabled with default form and logout features. Most of the web application use form based authentication.
+1. It creates a session cookie (JSESSIONID: E50668BDDC640D88A74D288AC81287E9) on successful login and sends to a browser.
+2. Browser sends this cookie in all seqsequent requests of the session to server
+Form based authentication provides a default login page, logout page and /logout url.
 ## Basic Authentication
-is  enabled
+is  enabled. It is the most basic option to secure REST APIs. 
+1. Base64 encoded username and password is sent as part of the request header - Authorization: Basic aWjluydf6lkdsaj8fouyY=
+2. But it has lot of flaws - not recommended for production use. Password can be decoded, No expiry, No role / access details
 ## Test User
 is created. Credentails printed in logs. Username is <b>user</b>
 ## CSRF protection
 is enabled for all update requests. POST, PUT, etc.
+1. You're logged into your bank's website. A cookie (say Cookie-A) is stored into your browser
+2. You visit malicious website without logging out from bank's site
+3. Malicious website executes a bank transfer without your knowledge using Cookie-A
+To protect from CSRF
+1. Synchronizer token pattern - a token created for each request
+2. To make an update (POST, PUT..), you need a CSRF token from the previous request in X-CSRF-TOKEN header
+3. CSRF may not be required if REST APIs are stateless
+4. Another approach is SameSite cookie (Set-Cookie: SameSite=Strict) - This means that the browser will send this cookie only to the site that originated it. To enable it, add server.servlet.session.cookie.same-site=strict to application.properties
+
+### Disable CSRF for Stateless REST APIs
+1. SpringBootWebSecurityConfiguration has all the default configs of spring security
 ## CORS requests
-are denied
+are denied, by default
+### Browsers don't allow AJAX calls to resources outside current origin
+### CORS specs that allows you to configure which cross-domain requests are allowed
+1. Global Configration - applicable to all Controllers; Configure ```addCorsMappings``` callback method in ```WebMvcConfigurer```
+2. Local Configuration - can be done at each Controller or request method. @CrossOrigin - allow from all origins; @CrossOrigin(origins="https://in.foresthut") - allow from specific origins
 ## X-Frame-Options 
 is set to 0 (Frames are disabled)
