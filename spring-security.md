@@ -51,19 +51,7 @@ CORS, CSRF
 ## Authentication
 ## Authorization
 
-   
-
-# spring-security filters
-```mermaid
-    mindmap
-        root((Spring Security Filter Chain))
-            CsrfFilter
-            LogoutFilter
-            DefaultLoginPageGeneratingFilter
-            BasicAuthenticationFilter
-            ExceptionTranslationFilter
-            AuthorizationFilter
-```
+ 
 # Default spring-security configuration
 ## Zero Trust
 All requests are authenticated. It can be customized
