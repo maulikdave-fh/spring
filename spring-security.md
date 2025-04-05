@@ -48,8 +48,29 @@ Exceptions are translated to HTTP codes. For example; 401 Access Denied, 403 Aut
 is important. Typical order;
 ## Basic Checks 
 CORS, CSRF
+
 ## Authentication
+Key componenents
+AuthenticationManager -> AuthenticationProvider(s) -> UserDetailsService
+1. AuthenticationManager - responsible for authentication. Interaction multiple AuthenticationProviders. Has ```Authentication authenticate(Authentication authentication)``` method. Before authentication, ```Authentication``` object contains ```Credentials```. After authentication, ```Authentication``` object also contains ```Principal``` and ```GrantedAuthority```.
+2. AuthenticationProviders - perform specific authentication type. Loads use data using UserDetailsService. On successful authentication, AuthenticationProvider populates Principal and Authorities. Examples; JwtAuthenticationProvider
+3. UserDetailsService - core interface to load user data
+
+Authentication result is stored in SecurityContextHolder (SecurityContext ( Authentication (Principal, Credentials, GrantedAuthority))). GrantedAuthority - An authority granted to Principal (roles, scopes, ...)
+
 ## Authorization
+Two Approaches;
+### Global Security: authorizeHttpRequests
+```.requestMatchers("/users").hasRole("USER")```
+hasRole, hasAuthority, hasAnyAuthority, isAuthenticated
+### Method Security ```@EnableMethodSecurity``` for Java Config Class
+1. @Pre and @Post annotations <br/>
+```@PreAuthorize("hasRole('USER') and #username==authentication.name")```<br/>
+```@PostAuthorize("returnObject.username=='moe'")<br/>
+2. jsr-250 Annotations - ```@EnableMethodSecurity (jsr250Enabled=true)```<br/>
+```@RolesAllowed({"USER", "ADMIN"})```<br/>
+3. ```@Secured``` annotation - old one - ```@EnableMethodSecurity(securedEnabled=true)```<br/>
+```@Secured({"ROLE_ADMIN", "ROLE_USER"})```
 
  
 # Default spring-security configuration
@@ -87,3 +108,23 @@ are denied, by default
 2. Local Configuration - can be done at each Controller or request method. @CrossOrigin - allow from all origins; @CrossOrigin(origins="https://in.foresthut") - allow from specific origins
 ## X-Frame-Options 
 is set to 0 (Frames are disabled)
+
+# Password Hashing
+## PasswordEncoder
+```PasswordEncoder``` interface has multple implementations available in Spring for various algos like Bcrypt, Argon2, etc.
+
+# JWT Usage
+## JWT Authentication
+JWT Authentication using Spring Boot's OAuth2 Resource Server
+### Create Keypair
+Using ```openssl``` or ```java.security.KeyPairGenerator```
+### Create RSA Key using the keypair
+```com.nimbusds.jose.jwk.RSAKey```
+### Create JWKSource (JSON Web Key Source)
+1. Create ```JWKSet``` (new JSON Web Key Set) with the RSA Key
+2. Create ```JWKSource``` using the ```JWKSet```
+### User RSA Public Key for decoding
+```NimbusJwtDecoder.withPublicKey(rsaKey().toRSAPublicKey()).build()```
+### Use JWKSource for encoding
+```return new NimbusJwtEncoder(jwkSource());```
+
