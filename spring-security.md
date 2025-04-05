@@ -64,12 +64,12 @@ Two Approaches;
 ```.requestMatchers("/users").hasRole("USER")```
 hasRole, hasAuthority, hasAnyAuthority, isAuthenticated
 ### Method Security ```@EnableMethodSecurity``` for Java Config Class
-1. @Pre and @Post annotations <br/>
+1. MODERN APPROACH @Pre and @Post annotations <br/>
 ```@PreAuthorize("hasRole('USER') and #username==authentication.name")```<br/>
 ```@PostAuthorize("returnObject.username=='moe'")<br/>
-2. jsr-250 Annotations - ```@EnableMethodSecurity (jsr250Enabled=true)```<br/>
+2. STANDARD BASED jsr-250 Annotations - ```@EnableMethodSecurity (jsr250Enabled=true)```<br/>
 ```@RolesAllowed({"USER", "ADMIN"})```<br/>
-3. ```@Secured``` annotation - old one - ```@EnableMethodSecurity(securedEnabled=true)```<br/>
+3. OLD APPROACH ```@Secured``` annotation - ```@EnableMethodSecurity(securedEnabled=true)```<br/>
 ```@Secured({"ROLE_ADMIN", "ROLE_USER"})```
 
  
