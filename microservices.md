@@ -49,7 +49,7 @@ Single Entry point: Implement common features like authentication. Spring Cloud 
 1. Simple yet effective way to route to APIs
 2. Provide cross cutting conferns: Security, Monitoring / Mertics
 3. Built on top of Spring Webflux (Reactive approach)
-4. Features: Match routes on any request attribute, Define Predicates and Filters, Integrates with Spring Cloud Discovery Client (Load Balancing)
+4. Features: Match routes on any request attribute, Define Predicates and Filters, Integrates with Spring Cloud Discovery Client (Load Balancing), Path rewriting
 
 
 ### Fault Tolerance / Circuit Breaker
