@@ -38,6 +38,19 @@ Trace requests across microservices. Important for troubleshooting issues. Sprin
 
 ### Edge Server / API Gateway
 Single Entry point: Implement common features like authentication. Spring Cloud Gateway
+```mermaid
+  flowchart TB
+    A[Gateway Client] <--> B[Gateway Handler Mapping]
+    B[Gateway Handler Mapping] <--> C[Gateway Web Handler]
+    C[Gateway Web Handler] <--> D[Filters]
+    D[Filters] <--> E[Proxied Service]  
+```
+
+1. Simple yet effective way to route to APIs
+2. Provide cross cutting conferns: Security, Monitoring / Mertics
+3. Built on top of Spring Webflux (Reactive approach)
+4. Features: Match routes on any request attribute, Define Predicates and Filters, Integrates with Spring Cloud Discovery Client (Load Balancing)
+
 
 ### Fault Tolerance / Circuit Breaker
 Ensure that failure in one microservice does not cascade and make other microservices to fail. Spring supports Resilience4J
